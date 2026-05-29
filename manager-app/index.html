@@ -1,1 +1,2004 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Управленческий центр</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f1117;--card:#1a1d27;--card2:#222638;--border:#2a2d3e;
+  --text:#e2e8f0;--muted:#8892a4;--accent:#6366f1;--accent2:#818cf8;
+  --green:#22c55e;--red:#ef4444;--orange:#f97316;--blue:#3b82f6;--gray:#6b7280;--yellow:#eab308;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+a{color:var(--accent);text-decoration:none}
+
+/* LAYOUT */
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{display:flex;align-items:center;gap:16px;padding:0 24px;height:56px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.topbar-logo{font-weight:700;font-size:16px;color:var(--accent2);letter-spacing:-.5px;white-space:nowrap}
+.topbar-logo span{color:var(--muted);font-weight:400}
+.tabs{display:flex;gap:2px;flex:1}
+.tab{padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;white-space:nowrap;border:none;background:none}
+.tab:hover{color:var(--text);background:var(--card2)}
+.tab.active{color:var(--text);background:var(--card2)}
+.tab.active{color:var(--accent2)}
+.main{flex:1;padding:24px;max-width:1400px;margin:0 auto;width:100%}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card-sm{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.grid{display:grid;gap:16px}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.row{display:flex;gap:16px;align-items:flex-start}
+.col{flex:1;min-width:0}
+
+/* TYPOGRAPHY */
+h1{font-size:22px;font-weight:700}
+h2{font-size:16px;font-weight:600}
+h3{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.value{font-size:28px;font-weight:700;line-height:1}
+.sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-green{background:rgba(34,197,94,.15);color:var(--green)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-orange{background:rgba(249,115,22,.15);color:var(--orange)}
+.badge-blue{background:rgba(59,130,246,.15);color:var(--blue)}
+.badge-gray{background:rgba(107,114,128,.15);color:var(--gray)}
+.badge-accent{background:rgba(99,102,241,.15);color:var(--accent2)}
+.badge-yellow{background:rgba(234,179,8,.15);color:var(--yellow)}
+
+/* TREND */
+.trend-up{color:var(--green);font-weight:600}
+.trend-down{color:var(--red);font-weight:600}
+.trend-flat{color:var(--muted)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px 12px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid rgba(42,45,62,.5);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;border:none;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-danger{background:rgba(239,68,68,.15);color:var(--red);border:1px solid transparent}
+.btn-danger:hover{background:rgba(239,68,68,.25)}
+
+/* INPUTS */
+input,textarea,select{background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text);font-family:inherit;font-size:13px;width:100%;outline:none;transition:border .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:72px}
+select option{background:var(--card2)}
+.form-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:12px;font-weight:500;color:var(--muted)}
+
+/* PROGRESS */
+.progress{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-bar{height:100%;border-radius:3px;transition:width .3s}
+
+/* SECTION HEADER */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sec-title{font-size:18px;font-weight:700}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;transform:translateY(10px);transition:transform .2s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-size:16px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;line-height:1;padding:4px}
+.modal-close:hover{color:var(--text)}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+
+/* TIMER */
+.timer-display{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent2)}
+.timer-display.warning{color:var(--orange)}
+.timer-display.danger{color:var(--red)}
+
+/* SECTION TABS */
+.subtabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:0}
+.subtab{padding:8px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.subtab:hover{color:var(--text)}
+.subtab.active{color:var(--accent2);border-bottom-color:var(--accent)}
+
+/* PAGE */
+.page{display:none}
+.page.active{display:block}
+
+/* ORG CHART */
+.org-chart{display:flex;flex-direction:column;align-items:center;gap:0}
+.org-level{display:flex;gap:12px;justify-content:center;margin-bottom:0}
+.org-node{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;min-width:110px;position:relative;cursor:pointer;transition:border .15s}
+.org-node:hover{border-color:var(--accent)}
+.org-node.top{border-color:var(--accent);background:rgba(99,102,241,.1)}
+.org-node-title{font-size:11px;color:var(--muted);margin-bottom:2px}
+.org-node-name{font-size:13px;font-weight:600}
+.org-connector{width:1px;height:20px;background:var(--border);margin:0 auto}
+.org-h-line{height:1px;background:var(--border);align-self:stretch;margin-top:20px}
+
+/* FOCUS COLUMNS */
+.focus-col{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;min-height:300px}
+.focus-col-header{margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.focus-item{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:grab}
+.focus-item:hover{border-color:var(--accent)}
+.focus-item-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.focus-item-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:center}
+
+/* GWC */
+.gwc{display:flex;gap:6px}
+.gwc-item{font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px}
+.gwc-ok{background:rgba(34,197,94,.15);color:var(--green)}
+.gwc-fail{background:rgba(239,68,68,.15);color:var(--red)}
+
+/* ROCKS */
+.rock-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.rock-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.rock-title{font-size:14px;font-weight:600}
+.rock-meta{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted)}
+
+/* IDS */
+.ids-issue{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.ids-issue-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.ids-problem{font-size:14px;font-weight:600;flex:1}
+.ids-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.ids-field label{font-size:11px;color:var(--muted);margin-bottom:3px;display:block}
+.ids-field p{font-size:13px}
+
+/* MEETING */
+.meeting-section{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;transition:border .15s}
+.meeting-section.active-section{border-color:var(--accent)}
+.meeting-section-header{display:flex;align-items:center;justify-content:space-between}
+.meeting-section-title{font-size:14px;font-weight:600}
+.meeting-section-time{font-size:12px;color:var(--muted)}
+
+/* HYPOTHESIS */
+.hypo-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.hypo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+.hypo-field label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px}
+.hypo-field p{font-size:13px;color:var(--text)}
+
+/* HW */
+.hw-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+
+/* 5 WHY */
+.why-chain{display:flex;flex-direction:column;gap:0}
+.why-step{display:flex;align-items:flex-start;gap:12px;padding:10px 0}
+.why-step:not(:last-child){border-bottom:1px solid var(--border)}
+.why-num{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.why-step input{flex:1}
+
+/* CHART BARS */
+.mini-chart{display:flex;align-items:flex-end;gap:3px;height:40px;margin-top:8px}
+.mini-bar{flex:1;border-radius:2px 2px 0 0;min-width:6px;transition:height .3s}
+
+/* SCROLL */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+/* UTIL */
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}
+.flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}
+.gap4{gap:4px}.gap8{gap:8px}.gap12{gap:12px}.gap16{gap:16px}
+.text-muted{color:var(--muted)}.text-sm{font-size:12px}.font-600{font-weight:600}
+.w100{width:100%}.text-right{text-align:right}
+
+/* NOTIFICATION */
+.notif{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:13px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .25s;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.notif.show{transform:translateY(0);opacity:1}
+.notif.success{border-color:var(--green);color:var(--green)}
+.notif.error{border-color:var(--red);color:var(--red)}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px;color:var(--muted)}
+.empty-icon{font-size:32px;margin-bottom:8px;opacity:.4}
+
+/* STATUS DOT */
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-red{background:var(--red)}
+.dot-orange{background:var(--orange)}
+.dot-gray{background:var(--gray)}
+.dot-blue{background:var(--blue)}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">УЦ <span>/ управленческий центр</span></div>
+    <div class="tabs">
+      <button class="tab active" onclick="showPage('dashboard')">Дашборд</button>
+      <button class="tab" onclick="showPage('metrics')">Показатели</button>
+      <button class="tab" onclick="showPage('meeting')">Совещание</button>
+      <button class="tab" onclick="showPage('team')">Команда</button>
+      <button class="tab" onclick="showPage('focus')">Фокус</button>
+      <button class="tab" onclick="showPage('hypo')">Гипотезы & ДЗ</button>
+    </div>
+    <div class="text-sm text-muted" id="topbar-date"></div>
+  </div>
+
+  <div class="main">
+    <!-- ========== DASHBOARD ========== -->
+    <div class="page active" id="page-dashboard">
+      <div class="sec-header">
+        <div class="sec-title">Дашборд</div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-metric')">+ Показатель</button>
+      </div>
+
+      <!-- SUMMARY CARDS -->
+      <div class="grid grid-4 mb16" id="summary-cards"></div>
+
+      <div class="row">
+        <!-- METRICS TABLE -->
+        <div class="col" style="flex:2">
+          <div class="card">
+            <div class="flex items-center justify-between mb16">
+              <h2>Показатели</h2>
+              <div class="flex gap8">
+                <select id="filter-type" style="width:auto;font-size:12px;padding:4px 8px" onchange="renderDashMetrics()">
+                  <option value="">Все</option>
+                  <option value="ГПР">ГПР</option>
+                  <option value="КОП">КОП</option>
+                </select>
+              </div>
+            </div>
+            <table id="dash-metrics-table">
+              <thead>
+                <tr>
+                  <th>Показатель</th>
+                  <th>Значение</th>
+                  <th>Тренд</th>
+                  <th>Состояние</th>
+                  <th>Владелец</th>
+                  <th>Контроль</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="dash-metrics-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="col" style="flex:1;min-width:240px">
+          <!-- FOCUS WEEK -->
+          <div class="card mb16">
+            <h3 class="mb12">Фокус недели</h3>
+            <div id="focus-week-list"></div>
+          </div>
+          <!-- СОСТОЯНИЯ -->
+          <div class="card">
+            <h3 class="mb12">Легенда состояний</h3>
+            <div class="flex flex-col gap8" id="states-legend"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== METRICS ========== -->
+    <div class="page" id="page-metrics">
+      <div class="sec-header">
+        <div class="sec-title">Показатели КОП / ГПР</div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modal-metric')">+ Добавить</button>
+      </div>
+      <div id="metrics-list"></div>
+    </div>
+
+    <!-- ========== MEETING ========== -->
+    <div class="page" id="page-meeting">
+      <div class="sec-header">
+        <div class="sec-title">Совещание Level-10</div>
+        <div class="flex gap8">
+          <button class="btn btn-ghost btn-sm" onclick="showMeetingHistory()">История</button>
+          <button class="btn btn-primary btn-sm" onclick="startMeeting()">Начать совещание</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- SECTIONS -->
+        <div class="col" style="flex:1">
+          <div class="card mb16">
+            <div class="flex items-center justify-between mb16">
+              <h2>Программа</h2>
+              <div>
+                <span class="label">Общее время:</span>
+                <span id="total-timer" class="timer-display" style="font-size:20px;margin-left:8px">90:00</span>
+              </div>
+            </div>
+            <div id="meeting-sections"></div>
+          </div>
+        </div>
+
+        <!-- IDS + TODOS -->
+        <div class="col" style="flex:1">
+          <!-- IDS -->
+          <div class="card mb16">
+            <div class="flex items-center justify-between mb12">
+              <h2>IDS — Проблемы</h2>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('modal-ids')">+ Проблема</button>
+            </div>
+            <div id="ids-list"></div>
+          </div>
+
+          <!-- TODOS -->
+          <div class="card">
+            <div class="flex items-center justify-between mb12">
+              <h2>То-до совещания</h2>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('modal-todo')">+ Задача</button>
+            </div>
+            <div id="meeting-todos"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TEAM ========== -->
+    <div class="page" id="page-team">
+      <div class="subtabs">
+        <div class="subtab active" onclick="showSubTab('team','members')">Состав</div>
+        <div class="subtab" onclick="showSubTab('team','orgchart')">Оргсхема</div>
+      </div>
+
+      <div id="subpage-team-members">
+        <div class="sec-header">
+          <div class="sec-title">Команда</div>
+          <div class="flex gap8">
+            <select id="team-filter-mot" style="width:auto;font-size:12px;padding:4px 8px" onchange="renderTeam()">
+              <option value="">Все типы</option>
+              <option value="Результатник">Результатник</option>
+              <option value="Денежник">Денежник</option>
+              <option value="Романтик">Романтик</option>
+              <option value="Статусник">Статусник</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-member')">+ Сотрудник</button>
+          </div>
+        </div>
+        <div class="grid grid-3" id="team-cards"></div>
+      </div>
+
+      <div id="subpage-team-orgchart" style="display:none">
+        <div class="sec-header">
+          <div class="sec-title">Оргсхема — 7 функциональных блоков</div>
+        </div>
+        <div class="card">
+          <div id="org-chart-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== FOCUS ========== -->
+    <div class="page" id="page-focus">
+      <div class="subtabs">
+        <div class="subtab active" onclick="showSubTab('focus','tasks')">4% / 20% / 80%</div>
+        <div class="subtab" onclick="showSubTab('focus','rocks')">Rocks</div>
+      </div>
+
+      <div id="subpage-focus-tasks">
+        <div class="sec-header">
+          <div class="sec-title">Задачи по приоритету</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-task')">+ Задача</button>
+        </div>
+        <div class="row">
+          <div class="focus-col" id="col-4pct">
+            <div class="focus-col-header">
+              <div class="flex items-center gap8">
+                <span class="dot dot-red"></span>
+                <span style="font-weight:700;font-size:15px">4% Стержневые</span>
+              </div>
+              <div class="text-sm text-muted mt8">Контроль: ежедневно / владелец</div>
+            </div>
+            <div id="tasks-4pct"></div>
+          </div>
+          <div class="focus-col" id="col-20pct">
+            <div class="focus-col-header">
+              <div class="flex items-center gap8">
+                <span class="dot dot-orange"></span>
+                <span style="font-weight:700;font-size:15px">20% Важные</span>
+              </div>
+              <div class="text-sm text-muted mt8">Контроль: через день / РО</div>
+            </div>
+            <div id="tasks-20pct"></div>
+          </div>
+          <div class="focus-col" id="col-80pct">
+            <div class="focus-col-header">
+              <div class="flex items-center gap8">
+                <span class="dot dot-gray"></span>
+                <span style="font-weight:700;font-size:15px">80% ОКК</span>
+              </div>
+              <div class="text-sm text-muted mt8">Контроль: раз в неделю / ОКК</div>
+            </div>
+            <div id="tasks-80pct"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="subpage-focus-rocks" style="display:none">
+        <div class="sec-header">
+          <div class="sec-title">Rocks — квартальные приоритеты</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-rock')">+ Rock</button>
+        </div>
+        <div id="rocks-list"></div>
+      </div>
+    </div>
+
+    <!-- ========== HYPO & HW ========== -->
+    <div class="page" id="page-hypo">
+      <div class="subtabs">
+        <div class="subtab active" onclick="showSubTab('hypo','hypos')">Гипотезы</div>
+        <div class="subtab" onclick="showSubTab('hypo','hw')">ДЗ Школы</div>
+        <div class="subtab" onclick="showSubTab('hypo','fivewhy')">5 Почему</div>
+      </div>
+
+      <div id="subpage-hypo-hypos">
+        <div class="sec-header">
+          <div class="sec-title">Гипотезы — Build-Measure-Learn</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-hypo')">+ Гипотеза</button>
+        </div>
+        <div id="hypos-list"></div>
+      </div>
+
+      <div id="subpage-hypo-hw" style="display:none">
+        <div class="sec-header">
+          <div class="sec-title">Домашние задания</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-hw')">+ ДЗ</button>
+        </div>
+        <div id="hw-list"></div>
+      </div>
+
+      <div id="subpage-hypo-fivewhy" style="display:none">
+        <div class="sec-header">
+          <div class="sec-title">5 Почему — анализ корневой причины</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-fivewhy')">+ Разбор</button>
+        </div>
+        <div id="fivewhy-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== MODALS ======== -->
+
+<!-- METRIC MODAL -->
+<div class="modal-overlay" id="modal-metric">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-metric-title">Новый показатель</div>
+      <button class="modal-close" onclick="closeModal('modal-metric')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="metric-id">
+    <div class="form-row">
+      <div class="form-group" style="grid-column:span 2">
+        <label>Название</label>
+        <input id="m-name" placeholder="Выручка за неделю">
+      </div>
+      <div class="form-group">
+        <label>Тип</label>
+        <select id="m-type">
+          <option>ГПР</option>
+          <option>КОП</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Текущее значение</label>
+        <input id="m-current" type="text" placeholder="1 850 000">
+      </div>
+      <div class="form-group">
+        <label>Пред. значение</label>
+        <input id="m-prev" type="text" placeholder="1 620 000">
+      </div>
+      <div class="form-group">
+        <label>Целевое значение</label>
+        <input id="m-target" type="text" placeholder="2 000 000">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Единица измерения</label>
+        <input id="m-unit" placeholder="руб / % / шт">
+      </div>
+      <div class="form-group">
+        <label>Владелец</label>
+        <input id="m-owner" placeholder="Имя">
+      </div>
+      <div class="form-group">
+        <label>Частота контроля</label>
+        <select id="m-freq">
+          <option value="4%">4% — ежедневно</option>
+          <option value="20%">20% — через день</option>
+          <option value="80%">80% — раз в неделю</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Комментарий / контекст</label>
+      <textarea id="m-note" placeholder="Что влияет на показатель..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-metric')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveMetric()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEMBER MODAL -->
+<div class="modal-overlay" id="modal-member">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-member-title">Новый сотрудник</div>
+      <button class="modal-close" onclick="closeModal('modal-member')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="member-id">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Имя</label>
+        <input id="mb-name" placeholder="Артём Степовой">
+      </div>
+      <div class="form-group">
+        <label>Роль / должность</label>
+        <input id="mb-role" placeholder="РОП">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Тип мотивации</label>
+        <select id="mb-mot">
+          <option>Результатник</option>
+          <option>Денежник</option>
+          <option>Романтик</option>
+          <option>Статусник</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Функциональный блок</label>
+        <select id="mb-block">
+          <option>Управление</option>
+          <option>Адм / HR</option>
+          <option>Маркетинг</option>
+          <option>Финансы</option>
+          <option>Производство</option>
+          <option>ОКК</option>
+          <option>Клиенты</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Уровень</label>
+        <select id="mb-level">
+          <option>F0.5</option>
+          <option>F1</option>
+          <option>F2</option>
+          <option>F3</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Gets it (понимает)</label>
+        <select id="mb-g"><option value="1">Да</option><option value="0">Нет</option></select>
+      </div>
+      <div class="form-group">
+        <label>Wants it (хочет)</label>
+        <select id="mb-w"><option value="1">Да</option><option value="0">Нет</option></select>
+      </div>
+      <div class="form-group">
+        <label>Capacity (способен)</label>
+        <select id="mb-c"><option value="1">Да</option><option value="0">Нет</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Является -1 (заместителем)</label>
+        <select id="mb-minus1"><option value="0">Нет</option><option value="1">Да</option></select>
+      </div>
+      <div class="form-group">
+        <label>Статус</label>
+        <select id="mb-status">
+          <option value="green">Зелёный — всё ок</option>
+          <option value="yellow">Жёлтый — под наблюдением</option>
+          <option value="red">Красный — требует внимания</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Заметки</label>
+      <textarea id="mb-note" placeholder="Наблюдения, факты поведения..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-member')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveMember()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- IDS MODAL -->
+<div class="modal-overlay" id="modal-ids">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">IDS — Новая проблема</div>
+      <button class="modal-close" onclick="closeModal('modal-ids')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="ids-id">
+    <div class="form-group mb12">
+      <label>Проблема (симптом)</label>
+      <input id="ids-problem" placeholder="Упали лиды в этой неделе">
+    </div>
+    <div class="form-group mb12">
+      <label>Корневая причина (5 почему)</label>
+      <textarea id="ids-root" placeholder="Почему? Потому что..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Решение</label>
+        <input id="ids-solution" placeholder="Что конкретно делаем">
+      </div>
+      <div class="form-group">
+        <label>Ответственный</label>
+        <input id="ids-owner" placeholder="Имя">
+      </div>
+      <div class="form-group">
+        <label>Срок</label>
+        <input id="ids-due" type="date">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Приоритет</label>
+      <select id="ids-priority">
+        <option value="high">Высокий</option>
+        <option value="mid">Средний</option>
+        <option value="low">Низкий</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-ids')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveIds()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- TODO MODAL -->
+<div class="modal-overlay" id="modal-todo">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Новая задача</div>
+      <button class="modal-close" onclick="closeModal('modal-todo')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="todo-id">
+    <div class="form-group mb12">
+      <label>Задача</label>
+      <input id="todo-task" placeholder="Что конкретно сделать">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Ответственный</label>
+        <input id="todo-owner" placeholder="Имя">
+      </div>
+      <div class="form-group">
+        <label>Срок</label>
+        <input id="todo-due" type="date">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-todo')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveTodo()">Добавить</button>
+    </div>
+  </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="modal-task">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Новая задача</div>
+      <button class="modal-close" onclick="closeModal('modal-task')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="task-id">
+    <div class="form-group mb12">
+      <label>Название задачи / процесса</label>
+      <input id="task-name" placeholder="Контроль конверсии лидов">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Категория</label>
+        <select id="task-cat">
+          <option value="4%">4% — Стержневые</option>
+          <option value="20%">20% — Важные</option>
+          <option value="80%">80% — ОКК</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Владелец</label>
+        <input id="task-owner" placeholder="Имя">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Частота</label>
+      <input id="task-freq" placeholder="Ежедневно / Через день / Еженедельно">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-task')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveTask()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ROCK MODAL -->
+<div class="modal-overlay" id="modal-rock">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-rock-title">Новый Rock</div>
+      <button class="modal-close" onclick="closeModal('modal-rock')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="rock-id">
+    <div class="form-group mb12">
+      <label>Квартальный приоритет</label>
+      <input id="rock-name" placeholder="Внедрить CRM">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Ответственный</label>
+        <input id="rock-owner" placeholder="Имя">
+      </div>
+      <div class="form-group">
+        <label>Дедлайн</label>
+        <input id="rock-due" placeholder="Q2 2025">
+      </div>
+      <div class="form-group">
+        <label>Прогресс %</label>
+        <input id="rock-pct" type="number" min="0" max="100" placeholder="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Как измеряем достижение</label>
+      <textarea id="rock-measure" placeholder="Что значит 'сделано'..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-rock')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveRock()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- HYPO MODAL -->
+<div class="modal-overlay" id="modal-hypo">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-hypo-title">Новая гипотеза</div>
+      <button class="modal-close" onclick="closeModal('modal-hypo')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="hypo-id">
+    <div class="form-group mb12">
+      <label>Гипотеза</label>
+      <input id="hypo-text" placeholder="Если мы сделаем X, то Y изменится на Z%">
+    </div>
+    <div class="form-group mb12">
+      <label>MVP — минимальный эксперимент</label>
+      <textarea id="hypo-mvp" placeholder="Что конкретно запускаем для проверки..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Как измеряем</label>
+        <input id="hypo-measure" placeholder="Метрика и порог">
+      </div>
+      <div class="form-group">
+        <label>Срок проверки</label>
+        <input id="hypo-due" type="date">
+      </div>
+    </div>
+    <div class="form-group mb12">
+      <label>Вывод / результат</label>
+      <textarea id="hypo-result" placeholder="Заполнить после эксперимента..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Статус</label>
+      <select id="hypo-status">
+        <option value="idea">Идея</option>
+        <option value="active">Тестируем</option>
+        <option value="confirmed">Подтверждена</option>
+        <option value="rejected">Опровергнута</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-hypo')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveHypo()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- HW MODAL -->
+<div class="modal-overlay" id="modal-hw">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-hw-title">Домашнее задание</div>
+      <button class="modal-close" onclick="closeModal('modal-hw')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="hw-id">
+    <div class="form-group mb12">
+      <label>Инсайт</label>
+      <textarea id="hw-insight" placeholder="Что понял, что осознал..."></textarea>
+    </div>
+    <div class="form-group mb12">
+      <label>Что внедрю</label>
+      <textarea id="hw-implement" placeholder="Конкретное действие..."></textarea>
+    </div>
+    <div class="form-group mb12">
+      <label>Как проверю</label>
+      <input id="hw-check" placeholder="Метрика / факт / срок">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Дедлайн</label>
+        <input id="hw-due" type="date">
+      </div>
+      <div class="form-group">
+        <label>Статус</label>
+        <select id="hw-status">
+          <option value="todo">Не начато</option>
+          <option value="doing">В процессе</option>
+          <option value="done">Внедрено</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-hw')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveHw()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- 5 WHY MODAL -->
+<div class="modal-overlay" id="modal-fivewhy">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">5 Почему</div>
+      <button class="modal-close" onclick="closeModal('modal-fivewhy')">&#x2715;</button>
+    </div>
+    <input type="hidden" id="fw-id">
+    <div class="form-group mb16">
+      <label>Проблема / симптом</label>
+      <input id="fw-problem" placeholder="Что происходит?">
+    </div>
+    <div class="why-chain">
+      <div class="why-step">
+        <div class="why-num">1</div>
+        <div class="form-group" style="flex:1"><label>Почему?</label><input id="fw-w1" placeholder=""></div>
+      </div>
+      <div class="why-step">
+        <div class="why-num">2</div>
+        <div class="form-group" style="flex:1"><label>Почему?</label><input id="fw-w2"></div>
+      </div>
+      <div class="why-step">
+        <div class="why-num">3</div>
+        <div class="form-group" style="flex:1"><label>Почему?</label><input id="fw-w3"></div>
+      </div>
+      <div class="why-step">
+        <div class="why-num">4</div>
+        <div class="form-group" style="flex:1"><label>Почему?</label><input id="fw-w4"></div>
+      </div>
+      <div class="why-step">
+        <div class="why-num">5</div>
+        <div class="form-group" style="flex:1"><label>Почему?</label><input id="fw-w5"></div>
+      </div>
+    </div>
+    <div class="form-group mt16">
+      <label>Корневая причина (вывод)</label>
+      <textarea id="fw-root" placeholder="Настоящая причина проблемы..."></textarea>
+    </div>
+    <div class="form-group mt12">
+      <label>Решение</label>
+      <input id="fw-fix" placeholder="Что меняем, чтобы не повторялось">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-fivewhy')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveFiveWhy()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEETING HISTORY MODAL -->
+<div class="modal-overlay" id="modal-meeting-hist">
+  <div class="modal" style="width:680px">
+    <div class="modal-header">
+      <div class="modal-title">История совещаний</div>
+      <button class="modal-close" onclick="closeModal('modal-meeting-hist')">&#x2715;</button>
+    </div>
+    <div id="meeting-hist-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-meeting-hist')">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<script>
+// ============================================================
+// DATA STORE
+// ============================================================
+const DB = {
+  get(key, def=[]) { try { return JSON.parse(localStorage.getItem('uc_'+key)) ?? def; } catch { return def; } },
+  set(key, val) { localStorage.setItem('uc_'+key, JSON.stringify(val)); },
+  id() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+};
+
+// ============================================================
+// DEFAULT DATA
+// ============================================================
+function initDefaults() {
+  if (DB.get('initialized', false)) return;
+
+  DB.set('metrics', [
+    {id:'m1',name:'Выручка',type:'ГПР',current:'1850000',prev:'1620000',target:'2000000',unit:'руб',owner:'Артём',freq:'4%',note:'Основной ГПР'},
+    {id:'m2',name:'Конверсия лидов',type:'КОП',current:'23',prev:'21',target:'30',unit:'%',owner:'Мария',freq:'4%',note:''},
+    {id:'m3',name:'Кол-во лидов',type:'КОП',current:'142',prev:'155',target:'180',unit:'шт',owner:'Иван',freq:'20%',note:'Просадка — разобраться'},
+    {id:'m4',name:'Средний чек',type:'КОП',current:'13000',prev:'13200',target:'15000',unit:'руб',owner:'Дмитрий',freq:'20%',note:''},
+    {id:'m5',name:'NPS',type:'КОП',current:'72',prev:'68',target:'80',unit:'',owner:'Анна',freq:'80%',note:''},
+  ]);
+
+  DB.set('members', [
+    {id:'t1',name:'Артём',role:'Владелец',mot:'Результатник',block:'Управление',level:'F2',g:1,w:1,c:1,minus1:0,status:'green',note:''},
+    {id:'t2',name:'Мария',role:'РОП',mot:'Денежник',block:'Клиенты',level:'F1',g:1,w:1,c:1,minus1:1,status:'green',note:'-1 по продажам'},
+    {id:'t3',name:'Иван',role:'Маркетолог',mot:'Романтик',block:'Маркетинг',level:'F1',g:1,w:1,c:0,minus1:0,status:'yellow',note:'Нет capacity — стоит разобраться'},
+    {id:'t4',name:'Дмитрий',role:'Финдир',mot:'Результатник',block:'Финансы',level:'F1',g:1,w:1,c:1,minus1:0,status:'green',note:''},
+    {id:'t5',name:'Анна',role:'ОКК',mot:'Статусник',block:'ОКК',level:'F1',g:1,w:0,c:1,minus1:0,status:'yellow',note:'Wants it — под вопросом'},
+  ]);
+
+  DB.set('rocks', [
+    {id:'r1',name:'Внедрить CRM',owner:'Мария',due:'Q2 2025',pct:60,measure:'CRM запущена, команда работает в ней ежедневно'},
+    {id:'r2',name:'Нанять -1 для РОП',owner:'Артём',due:'Q2 2025',pct:20,measure:'Кандидат нанят, прошёл 2 недели'},
+    {id:'r3',name:'Описать 3 ключевых БП',owner:'Дмитрий',due:'Q2 2025',pct:40,measure:'3 регламента написаны и подписаны'},
+  ]);
+
+  DB.set('tasks', [
+    {id:'tk1',name:'Контроль конверсии лидов',cat:'4%',owner:'Артём',freq:'Ежедневно'},
+    {id:'tk2',name:'Разбор ГПР с командой',cat:'4%',owner:'Артём',freq:'Ежедневно'},
+    {id:'tk3',name:'Контроль среднего чека',cat:'20%',owner:'Мария',freq:'Через день'},
+    {id:'tk4',name:'Контроль рекламных кабинетов',cat:'20%',owner:'Иван',freq:'Через день'},
+    {id:'tk5',name:'Проверка NPS',cat:'80%',owner:'Анна',freq:'Еженедельно'},
+    {id:'tk6',name:'Аудит операционных процессов',cat:'80%',owner:'ОКК',freq:'Еженедельно'},
+  ]);
+
+  DB.set('ids', [
+    {id:'i1',problem:'Просадка лидов на 8% за неделю',root:'Остановили рекламные кампании для A/B теста',solution:'Перезапустить прежние кампании, параллельно продолжить тест',owner:'Иван',due:'2025-06-05',priority:'high',done:false},
+  ]);
+
+  DB.set('todos', [
+    {id:'td1',task:'Провести разбор с Иваном по лидам',owner:'Артём',due:'2025-06-03',done:false},
+    {id:'td2',task:'Обновить регламент по среднему чеку',owner:'Мария',due:'2025-06-06',done:false},
+  ]);
+
+  DB.set('hypos', [
+    {id:'h1',text:'Если добавить WhatsApp-касание после заявки, конверсия вырастет на 15%',mvp:'Ручной обзвон 50 лидов через WA в течение 1 недели',measure:'Конверсия группы WA vs контрольная',due:'2025-06-10',result:'',status:'active'},
+  ]);
+
+  DB.set('hw', [
+    {id:'hw1',insight:'Инвентаризация процессов нужна перед масштабированием — без неё строим на песке',implement:'Провести инвентаризацию ТОП-10 процессов с командой',check:'Список 10 БП с оценкой критичности готов',due:'2025-06-15',status:'doing'},
+  ]);
+
+  DB.set('fivewhy', []);
+  DB.set('meetings', []);
+  DB.set('initialized', true);
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const names = ['dashboard','metrics','meeting','team','focus','hypo'];
+  tabs[names.indexOf(name)]?.classList.add('active');
+  renderPage(name);
+}
+
+function showSubTab(section, tab) {
+  const wrapper = document.getElementById('page-'+section) || document.querySelector('.page.active');
+  wrapper.querySelectorAll('[id^="subpage-'+section+'"]').forEach(el => el.style.display='none');
+  wrapper.querySelectorAll('.subtab').forEach(el => el.classList.remove('active'));
+  document.getElementById('subpage-'+section+'-'+tab).style.display='block';
+  event.target.classList.add('active');
+}
+
+function renderPage(name) {
+  if (name==='dashboard') renderDashboard();
+  if (name==='metrics') renderMetrics();
+  if (name==='meeting') renderMeeting();
+  if (name==='team') { renderTeam(); renderOrgChart(); }
+  if (name==='focus') { renderTasks(); renderRocks(); }
+  if (name==='hypo') { renderHypos(); renderHw(); renderFiveWhy(); }
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(id, data=null) {
+  document.getElementById(id).classList.add('open');
+  if (id==='modal-metric') {
+    const m = data || {};
+    document.getElementById('metric-id').value = m.id||'';
+    document.getElementById('modal-metric-title').textContent = m.id ? 'Редактировать показатель' : 'Новый показатель';
+    document.getElementById('m-name').value = m.name||'';
+    document.getElementById('m-type').value = m.type||'КОП';
+    document.getElementById('m-current').value = m.current||'';
+    document.getElementById('m-prev').value = m.prev||'';
+    document.getElementById('m-target').value = m.target||'';
+    document.getElementById('m-unit').value = m.unit||'';
+    document.getElementById('m-owner').value = m.owner||'';
+    document.getElementById('m-freq').value = m.freq||'4%';
+    document.getElementById('m-note').value = m.note||'';
+  }
+  if (id==='modal-member') {
+    const m = data || {};
+    document.getElementById('member-id').value = m.id||'';
+    document.getElementById('modal-member-title').textContent = m.id ? 'Редактировать' : 'Новый сотрудник';
+    document.getElementById('mb-name').value = m.name||'';
+    document.getElementById('mb-role').value = m.role||'';
+    document.getElementById('mb-mot').value = m.mot||'Результатник';
+    document.getElementById('mb-block').value = m.block||'Управление';
+    document.getElementById('mb-level').value = m.level||'F1';
+    document.getElementById('mb-g').value = m.g??1;
+    document.getElementById('mb-w').value = m.w??1;
+    document.getElementById('mb-c').value = m.c??1;
+    document.getElementById('mb-minus1').value = m.minus1??0;
+    document.getElementById('mb-status').value = m.status||'green';
+    document.getElementById('mb-note').value = m.note||'';
+  }
+  if (id==='modal-rock') {
+    const m = data || {};
+    document.getElementById('rock-id').value = m.id||'';
+    document.getElementById('modal-rock-title').textContent = m.id ? 'Редактировать Rock' : 'Новый Rock';
+    document.getElementById('rock-name').value = m.name||'';
+    document.getElementById('rock-owner').value = m.owner||'';
+    document.getElementById('rock-due').value = m.due||'';
+    document.getElementById('rock-pct').value = m.pct||0;
+    document.getElementById('rock-measure').value = m.measure||'';
+  }
+  if (id==='modal-hypo') {
+    const m = data || {};
+    document.getElementById('hypo-id').value = m.id||'';
+    document.getElementById('modal-hypo-title').textContent = m.id ? 'Редактировать' : 'Новая гипотеза';
+    document.getElementById('hypo-text').value = m.text||'';
+    document.getElementById('hypo-mvp').value = m.mvp||'';
+    document.getElementById('hypo-measure').value = m.measure||'';
+    document.getElementById('hypo-due').value = m.due||'';
+    document.getElementById('hypo-result').value = m.result||'';
+    document.getElementById('hypo-status').value = m.status||'idea';
+  }
+  if (id==='modal-hw') {
+    const m = data || {};
+    document.getElementById('hw-id').value = m.id||'';
+    document.getElementById('modal-hw-title').textContent = m.id ? 'Редактировать ДЗ' : 'Новое ДЗ';
+    document.getElementById('hw-insight').value = m.insight||'';
+    document.getElementById('hw-implement').value = m.implement||'';
+    document.getElementById('hw-check').value = m.check||'';
+    document.getElementById('hw-due').value = m.due||'';
+    document.getElementById('hw-status').value = m.status||'todo';
+  }
+  if (id==='modal-fivewhy') {
+    const m = data || {};
+    document.getElementById('fw-id').value = m.id||'';
+    document.getElementById('fw-problem').value = m.problem||'';
+    document.getElementById('fw-w1').value = m.w1||'';
+    document.getElementById('fw-w2').value = m.w2||'';
+    document.getElementById('fw-w3').value = m.w3||'';
+    document.getElementById('fw-w4').value = m.w4||'';
+    document.getElementById('fw-w5').value = m.w5||'';
+    document.getElementById('fw-root').value = m.root||'';
+    document.getElementById('fw-fix').value = m.fix||'';
+  }
+  if (id==='modal-ids') {
+    const m = data || {};
+    document.getElementById('ids-id').value = m.id||'';
+    document.getElementById('ids-problem').value = m.problem||'';
+    document.getElementById('ids-root').value = m.root||'';
+    document.getElementById('ids-solution').value = m.solution||'';
+    document.getElementById('ids-owner').value = m.owner||'';
+    document.getElementById('ids-due').value = m.due||'';
+    document.getElementById('ids-priority').value = m.priority||'high';
+  }
+  if (id==='modal-task') {
+    const m = data || {};
+    document.getElementById('task-id').value = m.id||'';
+    document.getElementById('task-name').value = m.name||'';
+    document.getElementById('task-cat').value = m.cat||'4%';
+    document.getElementById('task-owner').value = m.owner||'';
+    document.getElementById('task-freq').value = m.freq||'';
+  }
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+// ============================================================
+// STATE CALC
+// ============================================================
+function calcState(curr, prev) {
+  const c = parseFloat(String(curr).replace(/[^0-9.-]/g,''));
+  const p = parseFloat(String(prev).replace(/[^0-9.-]/g,''));
+  if (!p && !c) return 'none';
+  if (!p || p === 0) return 'none';
+  const delta = (c - p) / Math.abs(p);
+  if (delta > 0.2) return 'abundance';
+  if (delta > 0.02) return 'norm';
+  if (delta >= -0.02 && delta <= 0.02) return 'norm';
+  if (delta < -0.2) return 'danger';
+  if (delta < 0) return 'emergency';
+  return 'norm';
+}
+
+const STATE_MAP = {
+  none: {label:'Несуществование', cls:'badge-gray', dot:'dot-gray'},
+  danger: {label:'Опасность', cls:'badge-red', dot:'dot-red'},
+  emergency: {label:'ЧП', cls:'badge-orange', dot:'dot-orange'},
+  norm: {label:'Норма', cls:'badge-green', dot:'dot-green'},
+  abundance: {label:'Изобилие', cls:'badge-blue', dot:'dot-blue'},
+};
+
+function trendArrow(curr, prev) {
+  const c = parseFloat(String(curr).replace(/[^0-9.-]/g,''));
+  const p = parseFloat(String(prev).replace(/[^0-9.-]/g,''));
+  if (!p) return '<span class="trend-flat">—</span>';
+  const d = (c-p)/Math.abs(p)*100;
+  if (d > 1) return `<span class="trend-up">&#9650; ${d.toFixed(1)}%</span>`;
+  if (d < -1) return `<span class="trend-down">&#9660; ${Math.abs(d).toFixed(1)}%</span>`;
+  return `<span class="trend-flat">&#8594; ${d.toFixed(1)}%</span>`;
+}
+
+function fmtNum(v) {
+  const n = parseFloat(String(v).replace(/[^0-9.-]/g,''));
+  if (isNaN(n)) return v;
+  return n.toLocaleString('ru-RU');
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  renderSummaryCards();
+  renderDashMetrics();
+  renderFocusWeek();
+  renderStatesLegend();
+}
+
+function renderSummaryCards() {
+  const metrics = DB.get('metrics');
+  const members = DB.get('members');
+  const rocks = DB.get('rocks');
+  const ids = DB.get('ids').filter(i=>!i.done);
+  const gpr = metrics.find(m=>m.type==='ГПР');
+
+  const cards = [
+    {
+      label: gpr ? gpr.name : 'ГПР',
+      value: gpr ? fmtNum(gpr.current) + (gpr.unit?' '+gpr.unit:'') : '—',
+      sub: gpr ? trendArrow(gpr.current, gpr.prev).replace(/<[^>]+>/g,'').trim() : '',
+      subHtml: gpr ? trendArrow(gpr.current, gpr.prev) : '',
+      color: gpr ? STATE_MAP[calcState(gpr.current,gpr.prev)].cls.replace('badge-','') : 'gray',
+    },
+    {label:'Команда', value:members.length, sub:'сотрудников', color:'accent'},
+    {label:'Rocks Q', value:rocks.length, sub:`активных приоритетов`, color:'blue'},
+    {label:'Открытых IDS', value:ids.length, sub:'проблем на разборе', color: ids.length>0 ? 'red' : 'green'},
+  ];
+
+  const el = document.getElementById('summary-cards');
+  el.innerHTML = cards.map(c => `
+    <div class="card-sm">
+      <div class="label mb8">${c.label}</div>
+      <div class="value" style="color:var(--${c.color==='accent'?'accent2':c.color==='red'?'red':c.color==='green'?'green':c.color==='blue'?'blue':'text'})">${c.value}</div>
+      ${c.subHtml ? `<div class="sub mt8">${c.subHtml}</div>` : c.sub ? `<div class="sub">${c.sub}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function renderDashMetrics() {
+  const filter = document.getElementById('filter-type')?.value || '';
+  let metrics = DB.get('metrics');
+  if (filter) metrics = metrics.filter(m => m.type===filter);
+
+  const tbody = document.getElementById('dash-metrics-body');
+  if (!metrics.length) { tbody.innerHTML = '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:20px">Нет показателей</td></tr>'; return; }
+
+  tbody.innerHTML = metrics.map(m => {
+    const state = calcState(m.current, m.prev);
+    const s = STATE_MAP[state];
+    const freqColor = m.freq==='4%'?'red':m.freq==='20%'?'orange':'gray';
+    return `<tr>
+      <td>
+        <div style="font-weight:500">${m.name}</div>
+        <div class="text-sm text-muted">${m.type}</div>
+      </td>
+      <td><span style="font-weight:600">${fmtNum(m.current)}</span> <span class="text-muted text-sm">${m.unit}</span></td>
+      <td>${trendArrow(m.current, m.prev)}</td>
+      <td><span class="badge ${s.cls}">${s.label}</span></td>
+      <td>${m.owner}</td>
+      <td><span class="badge badge-${freqColor}">${m.freq}</span></td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick='openModal("modal-metric",${JSON.stringify(m)})'>&#9998;</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteMetric('${m.id}')">&#x2715;</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderFocusWeek() {
+  const rocks = DB.get('rocks');
+  const el = document.getElementById('focus-week-list');
+  const top = rocks.slice(0,3);
+  if (!top.length) { el.innerHTML = '<div class="text-muted text-sm">Нет приоритетов</div>'; return; }
+  el.innerHTML = top.map((r,i) => {
+    const col = i===0?'red':i===1?'orange':'gray';
+    return `<div class="mb8">
+      <div class="flex items-center gap8 mb4">
+        <span class="dot dot-${col}"></span>
+        <span style="font-weight:500;font-size:13px">${r.name}</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" style="width:${r.pct}%;background:var(--${col==='red'?'red':col==='orange'?'orange':'gray'})"></div>
+      </div>
+      <div class="text-sm text-muted mt4">${r.pct}% — ${r.owner}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderStatesLegend() {
+  const el = document.getElementById('states-legend');
+  el.innerHTML = Object.entries(STATE_MAP).map(([k,v]) => `
+    <div class="flex items-center gap8">
+      <span class="badge ${v.cls}" style="min-width:120px;justify-content:center">${v.label}</span>
+      <span class="text-sm text-muted">${{none:'Новый/нулевой',danger:'Резкое падение >20%',emergency:'Стабильно низко',norm:'Плавный рост',abundance:'Резкий рост >20%'}[k]}</span>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// METRICS PAGE
+// ============================================================
+function renderMetrics() {
+  const metrics = DB.get('metrics');
+  const el = document.getElementById('metrics-list');
+  if (!metrics.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">&#9783;</div><div>Нет показателей</div></div>'; return; }
+
+  el.innerHTML = metrics.map(m => {
+    const state = calcState(m.current, m.prev);
+    const s = STATE_MAP[state];
+    const c = parseFloat(String(m.current).replace(/[^0-9.-]/g,''));
+    const t = parseFloat(String(m.target).replace(/[^0-9.-]/g,''));
+    const pct = t > 0 ? Math.min(100, Math.round(c/t*100)) : 0;
+    const freqColor = m.freq==='4%'?'red':m.freq==='20%'?'orange':'gray';
+    return `<div class="card mb12">
+      <div class="flex items-center justify-between mb12">
+        <div class="flex items-center gap12">
+          <span class="badge badge-accent">${m.type}</span>
+          <span style="font-size:16px;font-weight:700">${m.name}</span>
+          <span class="badge ${s.cls}">${s.label}</span>
+        </div>
+        <div class="flex gap8">
+          <span class="badge badge-${freqColor}">${m.freq}</span>
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-metric",${JSON.stringify(m)})'>Изменить</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteMetric('${m.id}')">Удалить</button>
+        </div>
+      </div>
+      <div class="row">
+        <div style="flex:1">
+          <div class="label mb4">Текущее</div>
+          <div style="font-size:24px;font-weight:700">${fmtNum(m.current)} <span class="text-muted" style="font-size:14px">${m.unit}</span></div>
+          <div class="mt4">${trendArrow(m.current, m.prev)} <span class="text-sm text-muted">vs предыдущий период (${fmtNum(m.prev)} ${m.unit})</span></div>
+        </div>
+        <div style="flex:1">
+          <div class="label mb4">Прогресс к цели (${fmtNum(m.target)} ${m.unit})</div>
+          <div class="flex items-center gap8 mt8">
+            <div class="progress" style="flex:1">
+              <div class="progress-bar" style="width:${pct}%;background:var(--accent)"></div>
+            </div>
+            <span style="font-weight:600;font-size:14px">${pct}%</span>
+          </div>
+        </div>
+        <div style="flex:1">
+          <div class="label mb4">Владелец</div>
+          <div style="font-weight:600">${m.owner}</div>
+          ${m.note ? `<div class="text-sm text-muted mt4">${m.note}</div>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function saveMetric() {
+  const id = document.getElementById('metric-id').value;
+  const metric = {
+    id: id || DB.id(),
+    name: document.getElementById('m-name').value.trim(),
+    type: document.getElementById('m-type').value,
+    current: document.getElementById('m-current').value.trim(),
+    prev: document.getElementById('m-prev').value.trim(),
+    target: document.getElementById('m-target').value.trim(),
+    unit: document.getElementById('m-unit').value.trim(),
+    owner: document.getElementById('m-owner').value.trim(),
+    freq: document.getElementById('m-freq').value,
+    note: document.getElementById('m-note').value.trim(),
+  };
+  if (!metric.name) return notify('Введите название', 'error');
+  let list = DB.get('metrics');
+  if (id) list = list.map(m => m.id===id ? metric : m);
+  else list.push(metric);
+  DB.set('metrics', list);
+  closeModal('modal-metric');
+  notify('Показатель сохранён');
+  renderPage(getActivePage());
+}
+
+function deleteMetric(id) {
+  if (!confirm('Удалить показатель?')) return;
+  DB.set('metrics', DB.get('metrics').filter(m=>m.id!==id));
+  notify('Удалено');
+  renderPage(getActivePage());
+}
+
+// ============================================================
+// MEETING
+// ============================================================
+const SECTIONS = [
+  {title:'Заезд / Хорошие новости', mins:5, desc:'Каждый — одна хорошая новость'},
+  {title:'Скоркард — цифры', mins:10, desc:'Обзор ключевых КОП/ГПР. Аномалии?'},
+  {title:'Рокс — квартальные приоритеты', mins:5, desc:'Статус Rocks. Зелёный / Красный'},
+  {title:'Вопросы клиентов / сотрудников', mins:5, desc:'Жалобы, запросы, обратная связь'},
+  {title:'То-до прошлой недели', mins:5, desc:'Выполнено / не выполнено'},
+  {title:'IDS — разбор проблем', mins:60, desc:'Identify → Discuss → Solve'},
+  {title:'Итоги совещания', mins:5, desc:'Новые задачи, оценка совещания 1-10'},
+];
+
+let meetingTimer = null;
+let meetingActiveSection = -1;
+let meetingSeconds = 0;
+let totalSeconds = 90 * 60;
+
+function renderMeeting() {
+  renderMeetingSections();
+  renderIdsList();
+  renderMeetingTodos();
+}
+
+function renderMeetingSections() {
+  const el = document.getElementById('meeting-sections');
+  el.innerHTML = SECTIONS.map((s,i) => `
+    <div class="meeting-section ${meetingActiveSection===i?'active-section':''}" id="msec-${i}">
+      <div class="meeting-section-header">
+        <div>
+          <span class="meeting-section-title">${s.title}</span>
+          <span class="text-sm text-muted" style="margin-left:8px">${s.desc}</span>
+        </div>
+        <div class="flex items-center gap8">
+          <span class="meeting-section-time">${s.mins} мин</span>
+          <span class="timer-display" id="sec-timer-${i}" style="font-size:16px">${String(s.mins).padStart(2,'0')}:00</span>
+          <button class="btn btn-ghost btn-sm" onclick="startSectionTimer(${i},${s.mins*60})">${meetingActiveSection===i?'&#9646;&#9646;':'&#9654;'}</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function startMeeting() {
+  totalSeconds = 90 * 60;
+  meetingActiveSection = -1;
+  clearInterval(meetingTimer);
+  meetingTimer = setInterval(() => {
+    if (totalSeconds <= 0) { clearInterval(meetingTimer); return; }
+    totalSeconds--;
+    const m = Math.floor(totalSeconds/60);
+    const s = totalSeconds%60;
+    const el = document.getElementById('total-timer');
+    if (el) el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if (totalSeconds < 600) el?.classList.add('warning');
+    if (totalSeconds < 300) el?.classList.replace('warning','danger');
+  },1000);
+  notify('Совещание началось. Отсчёт 90 минут.');
+}
+
+let sectionTimers = {};
+function startSectionTimer(idx, secs) {
+  if (sectionTimers[idx]) { clearInterval(sectionTimers[idx]); delete sectionTimers[idx]; }
+  meetingActiveSection = idx;
+  renderMeetingSections();
+  let rem = secs;
+  const el = document.getElementById(`sec-timer-${idx}`);
+  sectionTimers[idx] = setInterval(() => {
+    if (rem <= 0) { clearInterval(sectionTimers[idx]); delete sectionTimers[idx]; notify(`Время раздела "${SECTIONS[idx].title}" истекло`, 'error'); return; }
+    rem--;
+    const m = Math.floor(rem/60); const s = rem%60;
+    if (el) el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if (el) { el.className = 'timer-display'; if(rem<60) el.classList.add('danger'); else if(rem<180) el.classList.add('warning'); }
+    if (el) el.style.fontSize='16px';
+  },1000);
+}
+
+function saveMeetingSnapshot() {
+  const meetings = DB.get('meetings');
+  meetings.unshift({
+    id: DB.id(),
+    date: new Date().toLocaleDateString('ru-RU'),
+    ids: DB.get('ids').length,
+    todos: DB.get('todos').length,
+  });
+  DB.set('meetings', meetings.slice(0,20));
+}
+
+function showMeetingHistory() {
+  const meetings = DB.get('meetings');
+  const el = document.getElementById('meeting-hist-content');
+  if (!meetings.length) { el.innerHTML = '<div class="empty">Нет сохранённых совещаний</div>'; }
+  else {
+    el.innerHTML = `<table><thead><tr><th>Дата</th><th>Проблем</th><th>Задач</th></tr></thead><tbody>${
+      meetings.map(m=>`<tr><td>${m.date}</td><td>${m.ids}</td><td>${m.todos}</td></tr>`).join('')
+    }</tbody></table>`;
+  }
+  openModal('modal-meeting-hist');
+}
+
+function renderIdsList() {
+  const list = DB.get('ids');
+  const el = document.getElementById('ids-list');
+  if (!list.length) { el.innerHTML = '<div class="empty text-sm">Нет открытых проблем</div>'; return; }
+  el.innerHTML = list.map(i => {
+    const prColor = i.priority==='high'?'red':i.priority==='mid'?'orange':'gray';
+    return `<div class="ids-issue ${i.done?'':''}">
+      <div class="ids-issue-header">
+        <div>
+          <div class="ids-problem">${i.problem}</div>
+          <div class="flex gap8 mt4">
+            <span class="badge badge-${prColor}">${{high:'Высокий',mid:'Средний',low:'Низкий'}[i.priority]}</span>
+            ${i.done?'<span class="badge badge-green">Решено</span>':''}
+          </div>
+        </div>
+        <div class="flex gap4">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-ids",${JSON.stringify(i).replace(/'/g,"&#39;")})'>&#9998;</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleIds('${i.id}')">${i.done?'&#x21BA;':'&#10003;'}</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteIds('${i.id}')">&#x2715;</button>
+        </div>
+      </div>
+      <div class="ids-grid">
+        <div class="ids-field"><label>Корень</label><p>${i.root||'—'}</p></div>
+        <div class="ids-field"><label>Решение</label><p>${i.solution||'—'}</p></div>
+        <div class="ids-field"><label>Ответственный</label><p>${i.owner||'—'}</p></div>
+        <div class="ids-field"><label>Срок</label><p>${i.due||'—'}</p></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function saveIds() {
+  const id = document.getElementById('ids-id').value;
+  const item = {
+    id: id || DB.id(),
+    problem: document.getElementById('ids-problem').value.trim(),
+    root: document.getElementById('ids-root').value.trim(),
+    solution: document.getElementById('ids-solution').value.trim(),
+    owner: document.getElementById('ids-owner').value.trim(),
+    due: document.getElementById('ids-due').value,
+    priority: document.getElementById('ids-priority').value,
+    done: false,
+  };
+  if (!item.problem) return notify('Введите описание проблемы','error');
+  let list = DB.get('ids');
+  if (id) list = list.map(i=>i.id===id?{...i,...item}:i);
+  else list.push(item);
+  DB.set('ids', list);
+  closeModal('modal-ids');
+  notify('Проблема сохранена');
+  renderIdsList();
+}
+
+function toggleIds(id) {
+  DB.set('ids', DB.get('ids').map(i=>i.id===id?{...i,done:!i.done}:i));
+  renderIdsList();
+}
+
+function deleteIds(id) {
+  DB.set('ids', DB.get('ids').filter(i=>i.id!==id));
+  renderIdsList();
+}
+
+function renderMeetingTodos() {
+  const list = DB.get('todos');
+  const el = document.getElementById('meeting-todos');
+  if (!list.length) { el.innerHTML = '<div class="empty text-sm">Нет задач</div>'; return; }
+  el.innerHTML = list.map(t => `
+    <div class="flex items-center gap8 mb8" style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo('${t.id}')" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer">
+      <div style="flex:1">
+        <div style="font-weight:500;${t.done?'text-decoration:line-through;color:var(--muted)':''}">${t.task}</div>
+        <div class="text-sm text-muted">${t.owner} — ${t.due||'без срока'}</div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteTodo('${t.id}')">&#x2715;</button>
+    </div>
+  `).join('');
+}
+
+function saveTodo() {
+  const item = {
+    id: DB.id(),
+    task: document.getElementById('todo-task').value.trim(),
+    owner: document.getElementById('todo-owner').value.trim(),
+    due: document.getElementById('todo-due').value,
+    done: false,
+  };
+  if (!item.task) return notify('Введите задачу','error');
+  const list = DB.get('todos');
+  list.push(item);
+  DB.set('todos', list);
+  closeModal('modal-todo');
+  notify('Задача добавлена');
+  renderMeetingTodos();
+}
+
+function toggleTodo(id) {
+  DB.set('todos', DB.get('todos').map(t=>t.id===id?{...t,done:!t.done}:t));
+  renderMeetingTodos();
+}
+
+function deleteTodo(id) {
+  DB.set('todos', DB.get('todos').filter(t=>t.id!==id));
+  renderMeetingTodos();
+}
+
+// ============================================================
+// TEAM
+// ============================================================
+function renderTeam() {
+  const filter = document.getElementById('team-filter-mot')?.value || '';
+  let members = DB.get('members');
+  if (filter) members = members.filter(m=>m.mot===filter);
+
+  const el = document.getElementById('team-cards');
+  if (!members.length) { el.innerHTML = '<div class="empty" style="grid-column:span 3">Нет сотрудников</div>'; return; }
+
+  el.innerHTML = members.map(m => {
+    const statusColor = m.status==='green'?'green':m.status==='yellow'?'yellow':'red';
+    const gwc = `<div class="gwc">
+      <span class="gwc-item ${m.g?'gwc-ok':'gwc-fail'}">G${m.g?'✓':'✗'}</span>
+      <span class="gwc-item ${m.w?'gwc-ok':'gwc-fail'}">W${m.w?'✓':'✗'}</span>
+      <span class="gwc-item ${m.c?'gwc-ok':'gwc-fail'}">C${m.c?'✓':'✗'}</span>
+    </div>`;
+    const motColor = {Результатник:'accent',Денежник:'green',Романтик:'orange',Статусник:'blue'}[m.mot]||'gray';
+    return `<div class="card-sm">
+      <div class="flex items-center justify-between mb12">
+        <div class="flex items-center gap8">
+          <span class="dot dot-${statusColor}"></span>
+          <span style="font-size:16px;font-weight:700">${m.name}</span>
+          ${m.minus1==1?'<span class="badge badge-accent">-1</span>':''}
+        </div>
+        <div class="flex gap4">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-member",${JSON.stringify(m)})'>&#9998;</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">&#x2715;</button>
+        </div>
+      </div>
+      <div class="label mb4">${m.role}</div>
+      <div class="flex gap8 mb8">
+        <span class="badge badge-${motColor}">${m.mot}</span>
+        <span class="badge badge-gray">${m.block}</span>
+        <span class="badge badge-gray">${m.level}</span>
+      </div>
+      ${gwc}
+      ${m.note?`<div class="text-sm text-muted mt8">${m.note}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function saveMember() {
+  const id = document.getElementById('member-id').value;
+  const item = {
+    id: id || DB.id(),
+    name: document.getElementById('mb-name').value.trim(),
+    role: document.getElementById('mb-role').value.trim(),
+    mot: document.getElementById('mb-mot').value,
+    block: document.getElementById('mb-block').value,
+    level: document.getElementById('mb-level').value,
+    g: parseInt(document.getElementById('mb-g').value),
+    w: parseInt(document.getElementById('mb-w').value),
+    c: parseInt(document.getElementById('mb-c').value),
+    minus1: parseInt(document.getElementById('mb-minus1').value),
+    status: document.getElementById('mb-status').value,
+    note: document.getElementById('mb-note').value.trim(),
+  };
+  if (!item.name) return notify('Введите имя','error');
+  let list = DB.get('members');
+  if (id) list = list.map(m=>m.id===id?item:m);
+  else list.push(item);
+  DB.set('members', list);
+  closeModal('modal-member');
+  notify('Сохранено');
+  renderTeam();
+  renderOrgChart();
+}
+
+function deleteMember(id) {
+  if (!confirm('Удалить?')) return;
+  DB.set('members', DB.get('members').filter(m=>m.id!==id));
+  notify('Удалено');
+  renderTeam();
+  renderOrgChart();
+}
+
+function renderOrgChart() {
+  const members = DB.get('members');
+  const blocks = ['Управление','Адм / HR','Маркетинг','Финансы','Производство','ОКК','Клиенты'];
+  const el = document.getElementById('org-chart-container');
+
+  const top = members.filter(m=>m.block==='Управление');
+  const rest = blocks.filter(b=>b!=='Управление');
+
+  el.innerHTML = `
+    <div class="org-chart">
+      <div class="org-level">
+        ${top.map(m=>`<div class="org-node top">
+          <div class="org-node-title">Управление</div>
+          <div class="org-node-name">${m.name}</div>
+          <div class="text-sm text-muted">${m.role}</div>
+        </div>`).join('')||`<div class="org-node top"><div class="org-node-title">Управление</div><div class="org-node-name">—</div></div>`}
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-level" style="gap:8px;flex-wrap:wrap;justify-content:center">
+        ${rest.map(b=>{
+          const bms = members.filter(m=>m.block===b);
+          return `<div class="org-node">
+            <div class="org-node-title">${b}</div>
+            ${bms.length?bms.map(m=>`<div class="org-node-name">${m.name}</div><div class="text-sm text-muted">${m.role}</div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:4px 0">'):
+            '<div class="text-sm text-muted">Вакантно</div>'}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// FOCUS / TASKS / ROCKS
+// ============================================================
+function renderTasks() {
+  const tasks = DB.get('tasks');
+  ['4%','20%','80%'].forEach(cat => {
+    const id = {'4%':'tasks-4pct','20%':'tasks-20pct','80%':'tasks-80pct'}[cat];
+    const el = document.getElementById(id);
+    const items = tasks.filter(t=>t.cat===cat);
+    if (!items.length) { el.innerHTML = `<div class="text-sm text-muted" style="padding:8px">Нет задач</div>`; return; }
+    el.innerHTML = items.map(t=>`
+      <div class="focus-item">
+        <div class="focus-item-title">${t.name}</div>
+        <div class="focus-item-meta">
+          <span>${t.owner}</span>
+          ${t.freq?`<span style="color:var(--muted)">·</span><span>${t.freq}</span>`:''}
+        </div>
+        <div class="flex gap4 mt8">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-task",${JSON.stringify(t)})'>&#9998;</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">&#x2715;</button>
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+function saveTask() {
+  const id = document.getElementById('task-id').value;
+  const item = {
+    id: id || DB.id(),
+    name: document.getElementById('task-name').value.trim(),
+    cat: document.getElementById('task-cat').value,
+    owner: document.getElementById('task-owner').value.trim(),
+    freq: document.getElementById('task-freq').value.trim(),
+  };
+  if (!item.name) return notify('Введите название','error');
+  let list = DB.get('tasks');
+  if (id) list = list.map(t=>t.id===id?item:t);
+  else list.push(item);
+  DB.set('tasks', list);
+  closeModal('modal-task');
+  notify('Сохранено');
+  renderTasks();
+}
+
+function deleteTask(id) {
+  DB.set('tasks', DB.get('tasks').filter(t=>t.id!==id));
+  renderTasks();
+}
+
+function renderRocks() {
+  const rocks = DB.get('rocks');
+  const el = document.getElementById('rocks-list');
+  if (!rocks.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">&#9678;</div><div>Нет Rocks на этот квартал</div></div>'; return; }
+  el.innerHTML = rocks.map(r=>{
+    const color = r.pct>=80?'green':r.pct>=40?'orange':'red';
+    return `<div class="rock-card">
+      <div class="rock-header">
+        <div class="rock-title">${r.name}</div>
+        <div class="flex gap8">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-rock",${JSON.stringify(r)})'>&#9998;</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteRock('${r.id}')">&#x2715;</button>
+        </div>
+      </div>
+      <div class="rock-meta mb8">
+        <span>${r.owner}</span>
+        <span>·</span>
+        <span>${r.due}</span>
+        ${r.measure?`<span>·</span><span>${r.measure}</span>`:''}
+      </div>
+      <div class="flex items-center gap12">
+        <div class="progress" style="flex:1">
+          <div class="progress-bar" style="width:${r.pct}%;background:var(--${color})"></div>
+        </div>
+        <span style="font-weight:700;color:var(--${color})">${r.pct}%</span>
+        <span class="badge badge-${color}">${r.pct>=80?'Выполняется':'На ходу'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function saveRock() {
+  const id = document.getElementById('rock-id').value;
+  const item = {
+    id: id || DB.id(),
+    name: document.getElementById('rock-name').value.trim(),
+    owner: document.getElementById('rock-owner').value.trim(),
+    due: document.getElementById('rock-due').value.trim(),
+    pct: parseInt(document.getElementById('rock-pct').value)||0,
+    measure: document.getElementById('rock-measure').value.trim(),
+  };
+  if (!item.name) return notify('Введите название','error');
+  let list = DB.get('rocks');
+  if (id) list = list.map(r=>r.id===id?item:r);
+  else list.push(item);
+  DB.set('rocks', list);
+  closeModal('modal-rock');
+  notify('Rock сохранён');
+  renderRocks();
+}
+
+function deleteRock(id) {
+  if (!confirm('Удалить Rock?')) return;
+  DB.set('rocks', DB.get('rocks').filter(r=>r.id!==id));
+  renderRocks();
+}
+
+// ============================================================
+// HYPOTHESES
+// ============================================================
+function renderHypos() {
+  const list = DB.get('hypos');
+  const el = document.getElementById('hypos-list');
+  if (!list.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">&#9883;</div><div>Нет гипотез</div></div>'; return; }
+  const statusMap = {idea:{label:'Идея',cls:'badge-gray'},active:{label:'Тестируем',cls:'badge-blue'},confirmed:{label:'Подтверждена',cls:'badge-green'},rejected:{label:'Опровергнута',cls:'badge-red'}};
+  el.innerHTML = list.map(h=>{
+    const s = statusMap[h.status]||statusMap.idea;
+    return `<div class="hypo-card">
+      <div class="flex items-center justify-between mb8">
+        <div style="font-size:14px;font-weight:600;flex:1">${h.text}</div>
+        <div class="flex gap8">
+          <span class="badge ${s.cls}">${s.label}</span>
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-hypo",${JSON.stringify(h)})'>&#9998;</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteHypo('${h.id}')">&#x2715;</button>
+        </div>
+      </div>
+      <div class="hypo-grid">
+        <div class="hypo-field"><label>MVP</label><p>${h.mvp||'—'}</p></div>
+        <div class="hypo-field"><label>Как измеряем</label><p>${h.measure||'—'}</p></div>
+        <div class="hypo-field"><label>Срок / вывод</label><p>${h.due||'—'}</p></div>
+      </div>
+      ${h.result?`<div class="mt8 text-sm" style="background:rgba(99,102,241,.08);border-radius:6px;padding:8px"><span class="label">Вывод: </span>${h.result}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function saveHypo() {
+  const id = document.getElementById('hypo-id').value;
+  const item = {
+    id: id || DB.id(),
+    text: document.getElementById('hypo-text').value.trim(),
+    mvp: document.getElementById('hypo-mvp').value.trim(),
+    measure: document.getElementById('hypo-measure').value.trim(),
+    due: document.getElementById('hypo-due').value,
+    result: document.getElementById('hypo-result').value.trim(),
+    status: document.getElementById('hypo-status').value,
+  };
+  if (!item.text) return notify('Введите гипотезу','error');
+  let list = DB.get('hypos');
+  if (id) list = list.map(h=>h.id===id?item:h);
+  else list.push(item);
+  DB.set('hypos', list);
+  closeModal('modal-hypo');
+  notify('Гипотеза сохранена');
+  renderHypos();
+}
+
+function deleteHypo(id) {
+  DB.set('hypos', DB.get('hypos').filter(h=>h.id!==id));
+  renderHypos();
+}
+
+// ============================================================
+// HOMEWORK
+// ============================================================
+function renderHw() {
+  const list = DB.get('hw');
+  const el = document.getElementById('hw-list');
+  if (!list.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">&#9997;</div><div>Нет домашних заданий</div></div>'; return; }
+  const statusMap = {todo:{label:'Не начато',cls:'badge-gray'},doing:{label:'В процессе',cls:'badge-blue'},done:{label:'Внедрено',cls:'badge-green'}};
+  el.innerHTML = list.map(h=>{
+    const s = statusMap[h.status]||statusMap.todo;
+    return `<div class="hw-card">
+      <div class="flex items-center justify-between mb8">
+        <span class="badge ${s.cls}">${s.label}</span>
+        <div class="flex gap4">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-hw",${JSON.stringify(h)})'>&#9998;</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteHw('${h.id}')">&#x2715;</button>
+        </div>
+      </div>
+      <div class="mb8">
+        <div class="label mb4">Инсайт</div>
+        <div style="font-size:14px;font-weight:500">${h.insight}</div>
+      </div>
+      <div class="grid grid-2 gap12">
+        <div>
+          <div class="label mb4">Что внедрю</div>
+          <div class="text-sm">${h.implement||'—'}</div>
+        </div>
+        <div>
+          <div class="label mb4">Как проверю</div>
+          <div class="text-sm">${h.check||'—'}</div>
+        </div>
+      </div>
+      ${h.due?`<div class="text-sm text-muted mt8">Дедлайн: ${h.due}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function saveHw() {
+  const id = document.getElementById('hw-id').value;
+  const item = {
+    id: id || DB.id(),
+    insight: document.getElementById('hw-insight').value.trim(),
+    implement: document.getElementById('hw-implement').value.trim(),
+    check: document.getElementById('hw-check').value.trim(),
+    due: document.getElementById('hw-due').value,
+    status: document.getElementById('hw-status').value,
+  };
+  if (!item.insight) return notify('Введите инсайт','error');
+  let list = DB.get('hw');
+  if (id) list = list.map(h=>h.id===id?item:h);
+  else list.push(item);
+  DB.set('hw', list);
+  closeModal('modal-hw');
+  notify('ДЗ сохранено');
+  renderHw();
+}
+
+function deleteHw(id) {
+  DB.set('hw', DB.get('hw').filter(h=>h.id!==id));
+  renderHw();
+}
+
+// ============================================================
+// 5 WHY
+// ============================================================
+function renderFiveWhy() {
+  const list = DB.get('fivewhy');
+  const el = document.getElementById('fivewhy-list');
+  if (!list.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">&#63;</div><div>Нет разборов</div></div>'; return; }
+  el.innerHTML = list.map(f=>`
+    <div class="card mb12">
+      <div class="flex items-center justify-between mb12">
+        <div style="font-size:15px;font-weight:700">${f.problem}</div>
+        <div class="flex gap4">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("modal-fivewhy",${JSON.stringify(f)})'>&#9998;</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteFiveWhy('${f.id}')">&#x2715;</button>
+        </div>
+      </div>
+      <div class="why-chain">
+        ${[1,2,3,4,5].filter(n=>f['w'+n]).map(n=>`
+          <div class="why-step">
+            <div class="why-num">${n}</div>
+            <div style="flex:1;padding:6px 0;font-size:13px">${f['w'+n]}</div>
+          </div>
+        `).join('')}
+      </div>
+      ${f.root?`<div class="mt12" style="background:rgba(99,102,241,.08);border-radius:8px;padding:10px">
+        <div class="label mb4">Корневая причина</div>
+        <div style="font-weight:600">${f.root}</div>
+        ${f.fix?`<div class="text-sm text-muted mt4">Решение: ${f.fix}</div>`:''}
+      </div>`:''}
+    </div>
+  `).join('');
+}
+
+function saveFiveWhy() {
+  const id = document.getElementById('fw-id').value;
+  const item = {
+    id: id || DB.id(),
+    problem: document.getElementById('fw-problem').value.trim(),
+    w1: document.getElementById('fw-w1').value.trim(),
+    w2: document.getElementById('fw-w2').value.trim(),
+    w3: document.getElementById('fw-w3').value.trim(),
+    w4: document.getElementById('fw-w4').value.trim(),
+    w5: document.getElementById('fw-w5').value.trim(),
+    root: document.getElementById('fw-root').value.trim(),
+    fix: document.getElementById('fw-fix').value.trim(),
+  };
+  if (!item.problem) return notify('Введите проблему','error');
+  let list = DB.get('fivewhy');
+  if (id) list = list.map(f=>f.id===id?item:f);
+  else list.push(item);
+  DB.set('fivewhy', list);
+  closeModal('modal-fivewhy');
+  notify('Разбор сохранён');
+  renderFiveWhy();
+}
+
+function deleteFiveWhy(id) {
+  DB.set('fivewhy', DB.get('fivewhy').filter(f=>f.id!==id));
+  renderFiveWhy();
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function notify(msg, type='success') {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = `notif ${type}`;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 2800);
+}
+
+// ============================================================
+// UTIL
+// ============================================================
+function getActivePage() {
+  const pages = ['dashboard','metrics','meeting','team','focus','hypo'];
+  for (const p of pages) {
+    if (document.getElementById('page-'+p)?.classList.contains('active')) return p;
+  }
+  return 'dashboard';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  initDefaults();
+
+  // Date
+  const d = new Date();
+  document.getElementById('topbar-date').textContent = d.toLocaleDateString('ru-RU', {weekday:'short',day:'numeric',month:'long'});
+
+  renderDashboard();
+}
+
+init();
+</script>
+</body>
+</html>
